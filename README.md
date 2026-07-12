@@ -93,7 +93,7 @@ This provides vehicles, drivers, trips, maintenance, fuel, and expense records s
 Open the project folder:
 
 ```bash
-cd /Users/thotashashank/transit_ops
+cd transit_ops
 ```
 
 Update the Odoo module after code changes:
