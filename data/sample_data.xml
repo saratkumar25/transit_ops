@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sample_vehicle_ka_bus" model="transit.vehicle">
+            <field name="name">KA City Bus 21</field>
+            <field name="registration_number">KA01TA1021</field>
+            <field name="vehicle_type">bus</field>
+            <field name="region">Karnataka</field>
+            <field name="max_load_capacity">5200</field>
+            <field name="odometer">42100</field>
+            <field name="acquisition_cost">2600000</field>
+            <field name="status">on_trip</field>
+        </record>
+        <record id="sample_vehicle_ts_van" model="transit.vehicle">
+            <field name="name">TS Reefer Van 08</field>
+            <field name="registration_number">TS09TV8008</field>
+            <field name="vehicle_type">van</field>
+            <field name="region">Telangana</field>
+            <field name="max_load_capacity">1400</field>
+            <field name="odometer">18420</field>
+            <field name="acquisition_cost">980000</field>
+            <field name="status">available</field>
+        </record>
+        <record id="sample_vehicle_tn_truck" model="transit.vehicle">
+            <field name="name">TN Cargo Truck 14</field>
+            <field name="registration_number">TN10TR1414</field>
+            <field name="vehicle_type">truck</field>
+            <field name="region">Tamil Nadu</field>
+            <field name="max_load_capacity">8500</field>
+            <field name="odometer">67300</field>
+            <field name="acquisition_cost">3100000</field>
+            <field name="status">in_shop</field>
+        </record>
+        <record id="sample_vehicle_mh_truck" model="transit.vehicle">
+            <field name="name">MH Express Truck 32</field>
+            <field name="registration_number">MH12EX3232</field>
+            <field name="vehicle_type">truck</field>
+            <field name="region">Maharashtra</field>
+            <field name="max_load_capacity">7800</field>
+            <field name="odometer">38240</field>
+            <field name="acquisition_cost">2850000</field>
+            <field name="status">available</field>
+        </record>
+        <record id="sample_vehicle_kl_van" model="transit.vehicle">
+            <field name="name">KL Staff Van 03</field>
+            <field name="registration_number">KL07SV0303</field>
+            <field name="vehicle_type">van</field>
+            <field name="region">Kerala</field>
+            <field name="max_load_capacity">1100</field>
+            <field name="odometer">91200</field>
+            <field name="acquisition_cost">760000</field>
+            <field name="status">retired</field>
+        </record>
+
+        <record id="sample_driver_ravi" model="transit.driver">
+            <field name="name">Ravi Kumar</field>
+            <field name="license_number">KA-DL-2045</field>
+            <field name="license_category">commercial</field>
+            <field name="license_expiry_date">2028-12-31</field>
+            <field name="contact_number">+91 90000 10001</field>
+            <field name="safety_score">94</field>
+            <field name="status">on_trip</field>
+        </record>
+        <record id="sample_driver_sana" model="transit.driver">
+            <field name="name">Sana Iqbal</field>
+            <field name="license_number">TS-DL-7782</field>
+            <field name="license_category">commercial</field>
+            <field name="license_expiry_date">2029-06-30</field>
+            <field name="contact_number">+91 90000 10002</field>
+            <field name="safety_score">91</field>
+            <field name="status">available</field>
+        </record>
+        <record id="sample_driver_arjun" model="transit.driver">
+            <field name="name">Arjun Menon</field>
+            <field name="license_number">MH-DL-3321</field>
+            <field name="license_category">hmv</field>
+            <field name="license_expiry_date">2027-11-15</field>
+            <field name="contact_number">+91 90000 10003</field>
+            <field name="safety_score">88</field>
+            <field name="status">available</field>
+        </record>
+        <record id="sample_driver_meena" model="transit.driver">
+            <field name="name">Meena Raj</field>
+            <field name="license_number">TN-DL-9088</field>
+            <field name="license_category">hmv</field>
+            <field name="license_expiry_date">2028-04-20</field>
+            <field name="contact_number">+91 90000 10004</field>
+            <field name="safety_score">86</field>
+            <field name="status">off_duty</field>
+        </record>
+
+        <record id="sample_trip_karnataka_active" model="transit.trip">
+            <field name="name">TR-SAMPLE-001</field>
+            <field name="source">Bengaluru Depot</field>
+            <field name="destination">Mysuru Terminal</field>
+            <field name="region">Karnataka</field>
+            <field name="vehicle_id" ref="sample_vehicle_ka_bus"/>
+            <field name="driver_id" ref="sample_driver_ravi"/>
+            <field name="cargo_weight">3100</field>
+            <field name="planned_distance">148</field>
+            <field name="start_odometer">42100</field>
+            <field name="revenue">18500</field>
+            <field name="state">dispatched</field>
+        </record>
+        <record id="sample_trip_telangana_pending" model="transit.trip">
+            <field name="name">TR-SAMPLE-002</field>
+            <field name="source">Hyderabad Hub</field>
+            <field name="destination">Warangal Cross Dock</field>
+            <field name="region">Telangana</field>
+            <field name="vehicle_id" ref="sample_vehicle_ts_van"/>
+            <field name="driver_id" ref="sample_driver_sana"/>
+            <field name="cargo_weight">720</field>
+            <field name="planned_distance">145</field>
+            <field name="revenue">9200</field>
+            <field name="state">draft</field>
+        </record>
+        <record id="sample_trip_maharashtra_done" model="transit.trip">
+            <field name="name">TR-SAMPLE-003</field>
+            <field name="source">Pune Yard</field>
+            <field name="destination">Mumbai Port</field>
+            <field name="region">Maharashtra</field>
+            <field name="vehicle_id" ref="sample_vehicle_mh_truck"/>
+            <field name="driver_id" ref="sample_driver_arjun"/>
+            <field name="cargo_weight">5200</field>
+            <field name="planned_distance">154</field>
+            <field name="start_odometer">38080</field>
+            <field name="final_odometer">38240</field>
+            <field name="fuel_consumed">42</field>
+            <field name="fuel_cost">4300</field>
+            <field name="revenue">24750</field>
+            <field name="state">completed</field>
+        </record>
+
+        <record id="sample_maintenance_tn_open" model="transit.maintenance">
+            <field name="name">Brake inspection and axle service</field>
+            <field name="vehicle_id" ref="sample_vehicle_tn_truck"/>
+            <field name="maintenance_type">inspection</field>
+            <field name="start_date">2026-07-10</field>
+            <field name="cost">6800</field>
+            <field name="state">open</field>
+        </record>
+        <record id="sample_fuel_mh_done" model="transit.fuel.log">
+            <field name="vehicle_id" ref="sample_vehicle_mh_truck"/>
+            <field name="trip_id" ref="sample_trip_maharashtra_done"/>
+            <field name="date">2026-07-11</field>
+            <field name="liters">42</field>
+            <field name="cost">4300</field>
+            <field name="odometer">38240</field>
+        </record>
+        <record id="sample_expense_mh_toll" model="transit.expense">
+            <field name="name">Mumbai expressway toll</field>
+            <field name="vehicle_id" ref="sample_vehicle_mh_truck"/>
+            <field name="trip_id" ref="sample_trip_maharashtra_done"/>
+            <field name="expense_type">toll</field>
+            <field name="date">2026-07-11</field>
+            <field name="amount">1250</field>
+        </record>
+    </data>
+</odoo>

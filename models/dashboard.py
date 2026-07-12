@@ -311,18 +311,11 @@ class TransitDashboard(models.Model):
         vehicle_type_labels = dict(
             Vehicle._fields["vehicle_type"].selection
         )
-        # Only include types that actually have records
-        existing_types = Vehicle.read_group(
-            [], ["vehicle_type"], ["vehicle_type"]
-        )
-        vehicle_types = []
-        for group in existing_types:
-            vt = group["vehicle_type"]
-            if vt:
-                vehicle_types.append({
-                    "value": vt,
-                    "label": vehicle_type_labels.get(vt, vt),
-                })
+        # Always expose all supported vehicle types, even before demo data exists.
+        vehicle_types = [
+            {"value": value, "label": label}
+            for value, label in Vehicle._fields["vehicle_type"].selection
+        ]
 
         # Statuses — always show all four
         statuses = [
@@ -347,6 +340,9 @@ class TransitDashboard(models.Model):
         for tr in trip_regions:
             if tr["region"]:
                 regions_set.add(tr["region"].strip())
+
+        if not regions_set:
+            regions_set.update(["Karnataka", "Telangana", "Tamil Nadu", "Maharashtra", "Kerala"])
 
         regions = sorted([
             {"value": r, "label": r} for r in regions_set

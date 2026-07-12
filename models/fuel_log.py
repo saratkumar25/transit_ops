@@ -38,28 +38,22 @@ class TransitFuelLog(models.Model):
     # ------------------------------------------------------------------
     # SQL Constraints
     # ------------------------------------------------------------------
-    _sql_constraints = [
-        (
-            "liters_positive",
-            "CHECK(liters > 0)",
-            "Fuel quantity (liters) must be greater than zero.",
-        ),
-        (
-            "cost_non_negative",
-            "CHECK(cost >= 0)",
-            "Fuel cost cannot be negative.",
-        ),
-        (
-            "odometer_non_negative",
-            "CHECK(odometer >= 0)",
-            "Odometer reading cannot be negative.",
-        ),
-        (
-            "unique_trip_fuel_log",
-            "UNIQUE(trip_id)",
-            "A fuel log already exists for this trip.",
-        ),
-    ]
+    _liters_positive = models.Constraint(
+        "CHECK(liters > 0)",
+        "Fuel quantity (liters) must be greater than zero.",
+    )
+    _cost_non_negative = models.Constraint(
+        "CHECK(cost >= 0)",
+        "Fuel cost cannot be negative.",
+    )
+    _odometer_non_negative = models.Constraint(
+        "CHECK(odometer >= 0)",
+        "Odometer reading cannot be negative.",
+    )
+    _unique_trip_fuel_log = models.Constraint(
+        "UNIQUE(trip_id)",
+        "A fuel log already exists for this trip.",
+    )
 
     # ------------------------------------------------------------------
     # Python Constraints

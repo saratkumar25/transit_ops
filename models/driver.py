@@ -48,13 +48,10 @@ class TransitDriver(models.Model):
         store=True,
     )
 
-    _sql_constraints = [
-        (
-            "license_number_uniq",
-            "unique(license_number)",
-            "License number must be unique.",
-        ),
-    ]
+    _license_number_uniq = models.Constraint(
+        "UNIQUE(license_number)",
+        "License number must be unique.",
+    )
 
     @api.model_create_multi
     def create(self, vals_list):

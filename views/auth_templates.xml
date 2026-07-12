@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="login_page" name="TransitOps Login">
+        <t t-call="web.layout">
+            <style>
+                :root {
+                    --to-ink: #17231f;
+                    --to-text: #202725;
+                    --to-muted: #66746f;
+                    --to-panel: #ffffff;
+                    --to-border: #cfd8d3;
+                    --to-soft: #f4f7f5;
+                    --to-green: #2f6f4e;
+                    --to-green-dark: #1f4b36;
+                    --to-blue: #3d78ad;
+                    --to-orange: #f08c00;
+                    --to-red: #c94444;
+                }
+                body {
+                    margin: 0;
+                    min-height: 100vh;
+                    background: #edf2ef;
+                    color: var(--to-text);
+                    font-family: Arial, Helvetica, sans-serif;
+                    letter-spacing: 0;
+                }
+                .to_auth_page {
+                    min-height: 100vh;
+                    display: grid;
+                    grid-template-columns: minmax(0, 1fr) 460px;
+                    background:
+                        linear-gradient(90deg, rgba(23, 35, 31, 0.91), rgba(47, 111, 78, 0.72));
+                    background-color: #dfe8e2;
+                    background-size: cover;
+                }
+                .to_auth_hero {
+                    padding: 48px 60px;
+                    color: #ffffff;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 32px;
+                }
+                .to_auth_eyebrow {
+                    font-size: 13px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    color: #b6d7c5;
+                    margin-bottom: 22px;
+                }
+                .to_auth_title {
+                    margin: 0;
+                    font-size: 44px;
+                    line-height: 54px;
+                    font-weight: 800;
+                }
+                .to_auth_subtitle {
+                    margin-top: 14px;
+                    font-size: 18px;
+                    color: #dbe7df;
+                }
+                .to_roles {
+                    margin-top: 32px;
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(160px, 220px));
+                    gap: 12px;
+                }
+                .to_role_tile {
+                    border: 1px solid rgba(255,255,255,0.35);
+                    background: rgba(255,255,255,0.09);
+                    padding: 13px 14px;
+                    font-weight: 700;
+                }
+                .to_dashboard_preview {
+                    max-width: 760px;
+                    border: 1px solid rgba(255,255,255,0.25);
+                    background: rgba(255,255,255,0.1);
+                    padding: 16px;
+                }
+                .to_preview_top {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 12px;
+                    margin-bottom: 14px;
+                    color: #dbe7df;
+                    font-size: 12px;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                }
+                .to_preview_grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, minmax(0, 1fr));
+                    gap: 8px;
+                    margin-bottom: 14px;
+                }
+                .to_preview_kpi {
+                    background: rgba(255,255,255,0.14);
+                    border: 1px solid rgba(255,255,255,0.18);
+                    padding: 10px;
+                    min-height: 54px;
+                }
+                .to_preview_kpi span {
+                    display: block;
+                    font-size: 10px;
+                    color: #c8d9d0;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                }
+                .to_preview_kpi strong {
+                    display: block;
+                    margin-top: 6px;
+                    font-size: 20px;
+                }
+                .to_preview_row {
+                    height: 10px;
+                    margin-top: 8px;
+                    background: rgba(255,255,255,0.18);
+                }
+                .to_preview_row:nth-child(2) { width: 90%; }
+                .to_preview_row:nth-child(3) { width: 74%; }
+                .to_preview_row:nth-child(4) { width: 58%; }
+                .to_auth_footer {
+                    font-size: 12px;
+                    color: #c8d9d0;
+                    font-weight: 700;
+                }
+                .to_login_panel {
+                    background: var(--to-panel);
+                    border-left: 1px solid var(--to-border);
+                    padding: 34px 38px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    overflow-y: auto;
+                }
+                .to_login_card h2 {
+                    margin: 0 0 8px;
+                    color: var(--to-ink);
+                    font-size: 25px;
+                    line-height: 32px;
+                }
+                .to_login_hint {
+                    color: var(--to-muted);
+                    margin-bottom: 18px;
+                    font-size: 14px;
+                }
+                .to_mode_tabs {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 8px;
+                    margin-bottom: 18px;
+                }
+                .to_mode_tabs a {
+                    border: 1px solid var(--to-border);
+                    color: var(--to-green-dark);
+                    background: var(--to-soft);
+                    text-align: center;
+                    padding: 10px 8px;
+                    text-decoration: none;
+                    font-size: 13px;
+                    font-weight: 800;
+                }
+                .to_mode_tabs a.is-active {
+                    background: var(--to-green-dark);
+                    color: #ffffff;
+                    border-color: var(--to-green-dark);
+                }
+                .to_field {
+                    margin-bottom: 14px;
+                }
+                .to_field label {
+                    display: block;
+                    margin-bottom: 7px;
+                    font-size: 11px;
+                    color: var(--to-muted);
+                    font-weight: 800;
+                    text-transform: uppercase;
+                }
+                .to_field input,
+                .to_field select {
+                    width: 100%;
+                    height: 42px;
+                    border: 1px solid var(--to-border);
+                    background: #ffffff;
+                    color: var(--to-text);
+                    padding: 0 12px;
+                    font-size: 14px;
+                    box-sizing: border-box;
+                }
+                .to_password_wrap {
+                    position: relative;
+                }
+                .to_password_wrap input {
+                    padding-right: 46px;
+                }
+                .to_password_toggle {
+                    position: absolute;
+                    right: 8px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 32px;
+                    height: 30px;
+                    border: 0;
+                    background: transparent;
+                    color: var(--to-green-dark);
+                    cursor: pointer;
+                    display: grid;
+                    place-items: center;
+                    padding: 0;
+                }
+                .to_password_toggle svg {
+                    width: 19px;
+                    height: 19px;
+                    stroke: currentColor;
+                    fill: none;
+                    stroke-width: 2;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+                .to_login_row {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+                    margin: 6px 0 18px;
+                    font-size: 13px;
+                    color: var(--to-muted);
+                }
+                .to_login_row label {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 7px;
+                }
+                .to_login_row a {
+                    color: var(--to-green-dark);
+                    text-decoration: none;
+                    font-weight: 700;
+                }
+                .to_submit {
+                    width: 100%;
+                    height: 44px;
+                    border: 1px solid var(--to-green-dark);
+                    background: var(--to-green-dark);
+                    color: #ffffff;
+                    font-weight: 800;
+                    cursor: pointer;
+                }
+                .to_demo_box,
+                .to_access_box {
+                    margin-top: 18px;
+                    border: 1px solid var(--to-border);
+                    background: var(--to-soft);
+                    padding: 13px;
+                    color: var(--to-muted);
+                    font-size: 12px;
+                    line-height: 18px;
+                }
+                .to_demo_box strong,
+                .to_access_box strong {
+                    color: var(--to-ink);
+                }
+                .to_demo_grid {
+                    display: grid;
+                    gap: 8px;
+                    margin-top: 10px;
+                }
+                .to_demo_item {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2px;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid var(--to-border);
+                }
+                .to_demo_item:last-child { border-bottom: 0; padding-bottom: 0; }
+                .to_demo_role { color: var(--to-green-dark); font-weight: 800; }
+                .to_demo_email { color: var(--to-text); overflow-wrap: anywhere; }
+                .to_error,
+                .to_success {
+                    margin-bottom: 14px;
+                    border: 1px solid var(--to-red);
+                    background: #fff5f5;
+                    color: var(--to-red);
+                    padding: 10px 12px;
+                    font-size: 13px;
+                    font-weight: 700;
+                }
+                .to_success {
+                    border-color: #2f6f4e;
+                    background: #f0faf4;
+                    color: #1f4b36;
+                }
+                @media (max-width: 980px) {
+                    .to_auth_page { grid-template-columns: 1fr; }
+                    .to_auth_hero { padding: 34px 24px; min-height: 560px; }
+                    .to_auth_title { font-size: 34px; line-height: 42px; }
+                    .to_roles { grid-template-columns: 1fr; }
+                    .to_preview_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+                    .to_login_panel { padding: 32px 24px; }
+                }
+            </style>
+            <main class="to_auth_page">
+                <section class="to_auth_hero">
+                    <div>
+                        <div class="to_auth_eyebrow">0. Authentication (RBAC)</div>
+                        <h1 class="to_auth_title">TransitOps</h1>
+                        <div class="to_auth_subtitle">Smart Transport Operations Platform</div>
+                        <div class="to_roles" aria-label="TransitOps roles">
+                            <div class="to_role_tile">Fleet Manager</div>
+                            <div class="to_role_tile">Dispatcher</div>
+                            <div class="to_role_tile">Safety Officer</div>
+                            <div class="to_role_tile">Financial Analyst</div>
+                        </div>
+                    </div>
+                    <div class="to_dashboard_preview" aria-label="Dashboard preview">
+                        <div class="to_preview_top">
+                            <span>Dashboard opens first after login</span>
+                            <span t-esc="role"/>
+                        </div>
+                        <div class="to_preview_grid">
+                            <div class="to_preview_kpi"><span>Active Vehicles</span><strong>Live</strong></div>
+                            <div class="to_preview_kpi"><span>Active Trips</span><strong>Live</strong></div>
+                            <div class="to_preview_kpi"><span>Drivers On Duty</span><strong>Live</strong></div>
+                            <div class="to_preview_kpi"><span>Utilization</span><strong>Live</strong></div>
+                        </div>
+                        <div class="to_preview_row"/>
+                        <div class="to_preview_row"/>
+                        <div class="to_preview_row"/>
+                    </div>
+                    <div class="to_auth_footer">TRANSITOPS © 2026 · RBAC ENABLED</div>
+                </section>
+                <section class="to_login_panel">
+                    <div class="to_login_card">
+                        <h2 t-if="mode == 'signup'">Create your account</h2>
+                        <h2 t-else="">Sign in to your account</h2>
+                        <div class="to_login_hint">Choose your role, use role credentials, and continue to the dashboard.</div>
+                        <div class="to_mode_tabs">
+                            <a t-att-class="mode != 'signup' and 'is-active' or ''" href="/transitops/login?db=transitops&amp;mode=login">Sign In</a>
+                            <a t-att-class="mode == 'signup' and 'is-active' or ''" href="/transitops/login?db=transitops&amp;mode=signup">Create Account</a>
+                        </div>
+                        <t t-if="error">
+                            <div class="to_error" t-esc="error"/>
+                        </t>
+                        <t t-if="success">
+                            <div class="to_success" t-esc="success"/>
+                        </t>
+                        <form method="post" action="/transitops/login">
+                            <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
+                            <input type="hidden" name="db" value="transitops"/>
+                            <input type="hidden" name="mode" t-att-value="mode"/>
+                            <t t-if="mode == 'signup'">
+                                <div class="to_field">
+                                    <label for="name">Full Name</label>
+                                    <input id="name" name="name" type="text" autocomplete="name" t-att-value="name" placeholder="Your name"/>
+                                </div>
+                            </t>
+                            <div class="to_field">
+                                <label for="login">Email</label>
+                                <input id="login" name="login" type="email" autocomplete="username" t-att-value="login" placeholder="dispatcher@transitops.local" required="required"/>
+                            </div>
+                            <div class="to_field">
+                                <label for="password">Password</label>
+                                <div class="to_password_wrap">
+                                    <input id="password" name="password" type="password" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" required="required"/>
+                                    <button class="to_password_toggle" type="button" aria-label="Show password" onclick="const input = document.getElementById('password'); const showing = input.type === 'text'; input.type = showing ? 'password' : 'text'; this.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="to_field">
+                                <label for="role">Role (RBAC)</label>
+                                <select id="role" name="role">
+                                    <option t-att-selected="role == 'Dispatcher'">Dispatcher</option>
+                                    <option t-att-selected="role == 'Fleet Manager'">Fleet Manager</option>
+                                    <option t-att-selected="role == 'Safety Officer'">Safety Officer</option>
+                                    <option t-att-selected="role == 'Financial Analyst'">Financial Analyst</option>
+                                </select>
+                            </div>
+                            <div class="to_login_row">
+                                <label><input type="checkbox" name="remember"/> Remember me</label>
+                                <a href="/web/reset_password?db=transitops">Forgot password?</a>
+                            </div>
+                            <button class="to_submit" type="submit" t-if="mode == 'signup'">Create Account</button>
+                            <button class="to_submit" type="submit" t-else="">Sign In</button>
+                        </form>
+                        <div class="to_demo_box">
+                            <strong>Role demo accounts</strong><br/>
+                            <span>Use the classroom/demo password shared with the team.</span>
+                            <div class="to_demo_grid">
+                                <t t-foreach="demo_accounts" t-as="account">
+                                    <div class="to_demo_item">
+                                        <span class="to_demo_role" t-esc="account['role']"/>
+                                        <span class="to_demo_email" t-esc="account['login']"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="to_access_box">
+                            <strong>Access is scoped by role after login:</strong><br/>
+                            Fleet Manager → Fleet, Maintenance<br/>
+                            Dispatcher → Dashboard, Trips<br/>
+                            Safety Officer → Drivers, Compliance<br/>
+                            Financial Analyst → Fuel &amp; Expenses, Analytics
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </t>
+    </template>
+</odoo>

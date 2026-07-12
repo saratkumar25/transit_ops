@@ -62,13 +62,10 @@ class TransitMaintenance(models.Model):
     # ------------------------------------------------------------------
     # SQL Constraints
     # ------------------------------------------------------------------
-    _sql_constraints = [
-        (
-            "cost_non_negative",
-            "CHECK(cost >= 0)",
-            "Maintenance cost cannot be negative.",
-        ),
-    ]
+    _cost_non_negative = models.Constraint(
+        "CHECK(cost >= 0)",
+        "Maintenance cost cannot be negative.",
+    )
 
     # ------------------------------------------------------------------
     # Python Constraints

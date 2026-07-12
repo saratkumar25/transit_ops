@@ -47,13 +47,10 @@ class TransitExpense(models.Model):
     # ------------------------------------------------------------------
     # SQL Constraints
     # ------------------------------------------------------------------
-    _sql_constraints = [
-        (
-            "amount_non_negative",
-            "CHECK(amount >= 0)",
-            "Expense amount cannot be negative.",
-        ),
-    ]
+    _amount_non_negative = models.Constraint(
+        "CHECK(amount >= 0)",
+        "Expense amount cannot be negative.",
+    )
 
     # ------------------------------------------------------------------
     # Python Constraints

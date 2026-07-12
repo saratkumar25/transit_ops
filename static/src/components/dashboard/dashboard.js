@@ -3,6 +3,7 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { user } from "@web/core/user";
 
 export class TransitOpsDashboard extends Component {
     static template = "transit_ops.TransitOpsDashboard";
@@ -32,7 +33,7 @@ export class TransitOpsDashboard extends Component {
             { label: "Maintenance", action: "transit_ops.action_transit_maintenance" },
             { label: "Fuel & Expenses", action: "transit_ops.action_transit_fuel_log" },
             { label: "Analytics", action: "transit_ops.action_transit_analytics" },
-            { label: "Settings", disabled: true },
+            { label: "Settings", preferences: true },
         ];
 
         onWillStart(() => this.reloadDashboard());
@@ -124,8 +125,15 @@ export class TransitOpsDashboard extends Component {
         if (item.disabled) {
             return;
         }
-        if (!item.action) {
+        if (!item.action && !item.preferences) {
             await this.reloadDashboard();
+            this.closeSidebar();
+            return;
+        }
+        if (item.preferences) {
+            const preferencesAction = await this.orm.call("res.users", "action_get", []);
+            preferencesAction.res_id = user.userId;
+            await this.action.doAction(preferencesAction);
             this.closeSidebar();
             return;
         }

@@ -65,13 +65,10 @@ class TransitVehicle(models.Model):
     )
     roi = fields.Float(compute="_compute_costs", store=True)
 
-    _sql_constraints = [
-        (
-            "registration_number_uniq",
-            "unique(registration_number)",
-            "Registration number must be unique.",
-        ),
-    ]
+    _registration_number_uniq = models.Constraint(
+        "UNIQUE(registration_number)",
+        "Registration number must be unique.",
+    )
 
     @api.model_create_multi
     def create(self, vals_list):

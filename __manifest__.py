@@ -23,11 +23,14 @@ Digitizes the transport workflow:
         "mail",
     ],
     "data": [
+        # 0. Public authentication page
+        "views/auth_templates.xml",
         # 1. Security — must load before any views
         "security/security.xml",
         "security/ir.model.access.csv",
         # 2. Data — sequences
         "data/sequence.xml",
+        "data/sample_data.xml",
         # 3. Member 1 core views
         "views/vehicle_views.xml",
         "views/driver_views.xml",
