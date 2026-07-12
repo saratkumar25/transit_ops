@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- Expense List View                                             -->
+    <!-- ============================================================ -->
+    <record id="view_transit_expense_list" model="ir.ui.view">
+        <field name="name">transit.expense.list</field>
+        <field name="model">transit.expense</field>
+        <field name="arch" type="xml">
+            <list string="Expenses">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="vehicle_id"/>
+                <field name="trip_id" optional="show"/>
+                <field name="expense_type"/>
+                <field name="amount" sum="Total Amount"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Expense Form View                                             -->
+    <!-- ============================================================ -->
+    <record id="view_transit_expense_form" model="ir.ui.view">
+        <field name="name">transit.expense.form</field>
+        <field name="model">transit.expense</field>
+        <field name="arch" type="xml">
+            <form string="Expense">
+                <sheet>
+                    <group>
+                        <group string="Details">
+                            <field name="name"/>
+                            <field name="expense_type"/>
+                            <field name="date"/>
+                        </group>
+                        <group string="Assignment &amp; Cost">
+                            <field name="vehicle_id"/>
+                            <field name="trip_id"/>
+                            <field name="amount"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Expense Search View                                           -->
+    <!-- ============================================================ -->
+    <record id="view_transit_expense_search" model="ir.ui.view">
+        <field name="name">transit.expense.search</field>
+        <field name="model">transit.expense</field>
+        <field name="arch" type="xml">
+            <search string="Expenses">
+                <field name="name"/>
+                <field name="vehicle_id"/>
+                <filter string="Toll" name="toll" domain="[('expense_type','=','toll')]"/>
+                <filter string="Parking" name="parking" domain="[('expense_type','=','parking')]"/>
+                <filter string="Permit" name="permit" domain="[('expense_type','=','permit')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_type" context="{'group_by':'expense_type'}"/>
+                    <filter string="Vehicle" name="group_vehicle" context="{'group_by':'vehicle_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by':'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Expense Graph View                                            -->
+    <!-- ============================================================ -->
+    <record id="view_transit_expense_graph" model="ir.ui.view">
+        <field name="name">transit.expense.graph</field>
+        <field name="model">transit.expense</field>
+        <field name="arch" type="xml">
+            <graph string="Expense Analysis" type="bar">
+                <field name="expense_type"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Expense Pivot View                                            -->
+    <!-- ============================================================ -->
+    <record id="view_transit_expense_pivot" model="ir.ui.view">
+        <field name="name">transit.expense.pivot</field>
+        <field name="model">transit.expense</field>
+        <field name="arch" type="xml">
+            <pivot string="Expense Analysis">
+                <field name="expense_type" type="row"/>
+                <field name="vehicle_id" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Expense Action                                                -->
+    <!-- ============================================================ -->
+    <record id="action_transit_expense" model="ir.actions.act_window">
+        <field name="name">Expenses</field>
+        <field name="res_model">transit.expense</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="search_view_id" ref="view_transit_expense_search"/>
+    </record>
+</odoo>

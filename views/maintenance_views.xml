@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- Maintenance List View                                         -->
+    <!-- ============================================================ -->
+    <record id="view_transit_maintenance_list" model="ir.ui.view">
+        <field name="name">transit.maintenance.list</field>
+        <field name="model">transit.maintenance</field>
+        <field name="arch" type="xml">
+            <list string="Maintenance Records" decoration-info="state == 'draft'" decoration-success="state == 'closed'" decoration-warning="state == 'open'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="vehicle_id"/>
+                <field name="maintenance_type"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="cost" sum="Total Cost"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Maintenance Form View                                         -->
+    <!-- ============================================================ -->
+    <record id="view_transit_maintenance_form" model="ir.ui.view">
+        <field name="name">transit.maintenance.form</field>
+        <field name="model">transit.maintenance</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance">
+                <header>
+                    <button name="action_start" string="Start Maintenance"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="transit_ops.group_transit_fleet_manager"/>
+                    <button name="action_close" string="Close Maintenance"
+                            type="object" class="btn-primary"
+                            invisible="state != 'open'"
+                            groups="transit_ops.group_transit_fleet_manager"/>
+                    <button name="action_cancel" string="Cancel"
+                            type="object"
+                            invisible="state not in ('draft', 'open')"
+                            groups="transit_ops.group_transit_fleet_manager"
+                            confirm="Are you sure you want to cancel this maintenance record?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,open,closed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Details">
+                            <field name="name"/>
+                            <field name="vehicle_id"/>
+                            <field name="maintenance_type"/>
+                        </group>
+                        <group string="Schedule &amp; Cost">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="cost"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" placeholder="Additional notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Maintenance Search View                                       -->
+    <!-- ============================================================ -->
+    <record id="view_transit_maintenance_search" model="ir.ui.view">
+        <field name="name">transit.maintenance.search</field>
+        <field name="model">transit.maintenance</field>
+        <field name="arch" type="xml">
+            <search string="Maintenance">
+                <field name="name"/>
+                <field name="vehicle_id"/>
+                <filter string="Open" name="open" domain="[('state','=','open')]"/>
+                <filter string="Closed" name="closed" domain="[('state','=','closed')]"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <separator/>
+                <filter string="Service" name="service" domain="[('maintenance_type','=','service')]"/>
+                <filter string="Repair" name="repair" domain="[('maintenance_type','=','repair')]"/>
+                <filter string="Inspection" name="inspection" domain="[('maintenance_type','=','inspection')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="State" name="group_state" context="{'group_by':'state'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by':'maintenance_type'}"/>
+                    <filter string="Vehicle" name="group_vehicle" context="{'group_by':'vehicle_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Maintenance Action                                            -->
+    <!-- ============================================================ -->
+    <record id="action_transit_maintenance" model="ir.actions.act_window">
+        <field name="name">Maintenance</field>
+        <field name="res_model">transit.maintenance</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_transit_maintenance_search"/>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+</odoo>
