@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_transit_dashboard" model="ir.actions.client">
+        <field name="name">TransitOps Dashboard</field>
+        <field name="tag">transit_ops.dashboard</field>
+    </record>
+
+    <record id="view_transit_trip_graph" model="ir.ui.view">
+        <field name="name">transit.trip.graph</field>
+        <field name="model">transit.trip</field>
+        <field name="arch" type="xml">
+            <graph string="Trip Analytics" type="bar">
+                <field name="state"/>
+                <field name="planned_distance" type="measure"/>
+                <field name="revenue" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_transit_trip_pivot" model="ir.ui.view">
+        <field name="name">transit.trip.pivot</field>
+        <field name="model">transit.trip</field>
+        <field name="arch" type="xml">
+            <pivot string="Trip Analytics">
+                <field name="state" type="row"/>
+                <field name="region" type="col"/>
+                <field name="planned_distance" type="measure"/>
+                <field name="revenue" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_transit_analytics" model="ir.actions.act_window">
+        <field name="name">Analytics</field>
+        <field name="res_model">transit.trip</field>
+        <field name="view_mode">graph,pivot,list</field>
+    </record>
+</odoo>

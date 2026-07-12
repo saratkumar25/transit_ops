@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="transit_ops.TransitOpsDashboard" owl="1">
+        <div class="o_transit_dashboard" t-att-class="state.sidebarOpen ? 'is-sidebar-open' : ''">
+            <aside class="to_sidebar">
+                <div class="to_brand">TransitOps</div>
+                <nav class="to_nav">
+                    <t t-foreach="navItems" t-as="item" t-key="item.label">
+                        <button type="button"
+                                class="to_nav_item"
+                                t-att-class="(item.active ? 'is-active ' : '') + (item.disabled ? 'is-disabled' : '')"
+                                t-on-click="() => this.navigate(item)"
+                                t-att-disabled="item.disabled">
+                            <span t-esc="item.label"/>
+                        </button>
+                    </t>
+                </nav>
+            </aside>
+
+            <section class="to_workspace">
+                <header class="to_topbar">
+                    <button type="button" class="to_sidebar_toggle" t-on-click="toggleSidebar">Menu</button>
+                    <div class="to_search">
+                        <input type="search"
+                               placeholder="Search..."
+                               t-att-value="state.searchTerm"
+                               t-on-input="(ev) => this.onSearchInput(ev.target.value)"/>
+                    </div>
+                    <div class="to_user_area">
+                        <span class="to_user_name" t-esc="state.data.current_user.name || 'User'"/>
+                        <span class="to_role_pill" t-esc="state.data.current_user.role || 'TransitOps'"/>
+                        <span class="to_avatar" t-esc="state.data.current_user.initials || 'TO'"/>
+                    </div>
+                </header>
+
+                <main class="to_content">
+                    <t t-if="state.error">
+                        <section class="to_error">
+                            <span t-esc="state.error"/>
+                            <button type="button" t-on-click="reloadDashboard">Retry</button>
+                        </section>
+                    </t>
+
+                    <div class="to_filters_title">FILTERS</div>
+                    <div class="to_filters">
+                        <select t-att-value="state.filters.vehicle_type || ''"
+                                t-on-change="(ev) => this.onFilterChange('vehicle_type', ev.target.value)">
+                            <option value="">Vehicle Type</option>
+                            <t t-foreach="state.data.filter_options.vehicle_types" t-as="option" t-key="option.value">
+                                <option t-att-value="option.value" t-esc="option.label"/>
+                            </t>
+                        </select>
+                        <select t-att-value="state.filters.status || ''"
+                                t-on-change="(ev) => this.onFilterChange('status', ev.target.value)">
+                            <option value="">Status</option>
+                            <t t-foreach="state.data.filter_options.statuses" t-as="option" t-key="option.value">
+                                <option t-att-value="option.value" t-esc="option.label"/>
+                            </t>
+                        </select>
+                        <select t-att-value="state.filters.region || ''"
+                                t-on-change="(ev) => this.onFilterChange('region', ev.target.value)">
+                            <option value="">Region</option>
+                            <t t-foreach="state.data.filter_options.regions" t-as="option" t-key="option.value">
+                                <option t-att-value="option.value" t-esc="option.label"/>
+                            </t>
+                        </select>
+                    </div>
+
+                    <div class="to_kpi_grid" t-att-class="state.loading ? 'is-loading' : ''">
+                        <t t-foreach="kpiCards" t-as="card" t-key="card.label">
+                            <article class="to_kpi_card">
+                                <div class="to_kpi_label" t-esc="card.label"/>
+                                <div class="to_kpi_value" t-esc="card.value"/>
+                            </article>
+                        </t>
+                    </div>
+
+                    <div class="to_main_grid">
+                        <section class="to_recent_trips">
+                            <div class="to_panel_title">Recent Trips</div>
+                            <div class="to_table_wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>TRIP</th>
+                                            <th>VEHICLE</th>
+                                            <th>DRIVER</th>
+                                            <th>STATUS</th>
+                                            <th>ETA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-if="filteredTrips.length">
+                                            <t t-foreach="filteredTrips" t-as="trip" t-key="trip.id || trip.name">
+                                                <tr>
+                                                    <td t-esc="trip.name || '-'"/>
+                                                    <td t-esc="trip.vehicle || '-'"/>
+                                                    <td t-esc="trip.driver || '-'"/>
+                                                    <td>
+                                                        <span class="to_status_pill"
+                                                              t-att-class="statusClass(trip.state)"
+                                                              t-esc="trip.status_label || trip.state || '-'"/>
+                                                    </td>
+                                                    <td t-esc="trip.eta || '-'"/>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <tr t-else="">
+                                            <td colspan="5" class="to_empty">No trips match the current filters.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <section class="to_vehicle_status">
+                            <div class="to_panel_title">Vehicle Status</div>
+                            <div class="to_status_bars">
+                                <t t-foreach="vehicleStatus" t-as="row" t-key="row.key">
+                                    <div class="to_status_row">
+                                        <div class="to_status_meta">
+                                            <span t-esc="row.label"/>
+                                            <strong t-esc="row.count || 0"/>
+                                        </div>
+                                        <div class="to_status_track">
+                                            <div class="to_status_fill"
+                                                 t-att-class="'is-' + row.key"
+                                                 t-att-style="barWidth(row)"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            </section>
+        </div>
+    </t>
+</templates>

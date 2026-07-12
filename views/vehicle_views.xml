@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_transit_vehicle_list" model="ir.ui.view">
+        <field name="name">transit.vehicle.list</field>
+        <field name="model">transit.vehicle</field>
+        <field name="arch" type="xml">
+            <list string="Vehicles">
+                <field name="registration_number"/>
+                <field name="name"/>
+                <field name="vehicle_type"/>
+                <field name="region"/>
+                <field name="max_load_capacity"/>
+                <field name="odometer"/>
+                <field name="status"/>
+                <field name="operational_cost"/>
+                <field name="roi"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_transit_vehicle_form" model="ir.ui.view">
+        <field name="name">transit.vehicle.form</field>
+        <field name="model">transit.vehicle</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="available,on_trip,in_shop,retired"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Identification">
+                            <field name="registration_number"/>
+                            <field name="name"/>
+                            <field name="vehicle_type"/>
+                            <field name="region"/>
+                            <field name="status"/>
+                        </group>
+                        <group string="Capacity">
+                            <field name="max_load_capacity"/>
+                            <field name="odometer"/>
+                            <field name="acquisition_cost"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <group string="Economics">
+                        <field name="total_fuel_cost"/>
+                        <field name="total_maintenance_cost"/>
+                        <field name="total_other_expense"/>
+                        <field name="operational_cost"/>
+                        <field name="total_revenue"/>
+                        <field name="roi"/>
+                    </group>
+                    <notebook>
+                        <page string="Trips">
+                            <field name="trip_ids" readonly="1"/>
+                        </page>
+                        <page string="Maintenance">
+                            <field name="maintenance_ids" readonly="1"/>
+                        </page>
+                        <page string="Fuel">
+                            <field name="fuel_log_ids" readonly="1"/>
+                        </page>
+                        <page string="Expenses">
+                            <field name="expense_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_transit_vehicle_search" model="ir.ui.view">
+        <field name="name">transit.vehicle.search</field>
+        <field name="model">transit.vehicle</field>
+        <field name="arch" type="xml">
+            <search string="Vehicles">
+                <field name="registration_number"/>
+                <field name="name"/>
+                <filter string="Available" name="available" domain="[('status','=','available')]"/>
+                <filter string="On Trip" name="on_trip" domain="[('status','=','on_trip')]"/>
+                <filter string="In Shop" name="in_shop" domain="[('status','=','in_shop')]"/>
+                <filter string="Retired" name="retired" domain="[('status','=','retired')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_vehicle_type" context="{'group_by':'vehicle_type'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
+                    <filter string="Region" name="group_region" context="{'group_by':'region'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_transit_vehicle" model="ir.actions.act_window">
+        <field name="name">Fleet</field>
+        <field name="res_model">transit.vehicle</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_transit_vehicle_search"/>
+    </record>
+</odoo>

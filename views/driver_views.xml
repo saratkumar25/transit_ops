@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_transit_driver_list" model="ir.ui.view">
+        <field name="name">transit.driver.list</field>
+        <field name="model">transit.driver</field>
+        <field name="arch" type="xml">
+            <list string="Drivers">
+                <field name="name"/>
+                <field name="license_number"/>
+                <field name="license_category"/>
+                <field name="license_expiry_date"/>
+                <field name="license_state"/>
+                <field name="contact_number"/>
+                <field name="safety_score"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_transit_driver_form" model="ir.ui.view">
+        <field name="name">transit.driver.form</field>
+        <field name="model">transit.driver</field>
+        <field name="arch" type="xml">
+            <form string="Driver">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="available,on_trip,off_duty,suspended"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Driver">
+                            <field name="name"/>
+                            <field name="contact_number"/>
+                            <field name="status"/>
+                            <field name="safety_score"/>
+                        </group>
+                        <group string="Licence">
+                            <field name="license_number"/>
+                            <field name="license_category"/>
+                            <field name="license_expiry_date"/>
+                            <field name="license_state"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Trips">
+                            <field name="trip_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_transit_driver_search" model="ir.ui.view">
+        <field name="name">transit.driver.search</field>
+        <field name="model">transit.driver</field>
+        <field name="arch" type="xml">
+            <search string="Drivers">
+                <field name="name"/>
+                <field name="license_number"/>
+                <filter string="Available" name="available" domain="[('status','=','available')]"/>
+                <filter string="On Trip" name="on_trip" domain="[('status','=','on_trip')]"/>
+                <filter string="Off Duty" name="off_duty" domain="[('status','=','off_duty')]"/>
+                <filter string="Suspended" name="suspended" domain="[('status','=','suspended')]"/>
+                <filter string="Expired" name="expired" domain="[('license_state','=','expired')]"/>
+                <filter string="Expiring" name="expiring" domain="[('license_state','=','expiring')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
+                    <filter string="Category" name="group_category" context="{'group_by':'license_category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_transit_driver" model="ir.actions.act_window">
+        <field name="name">Drivers</field>
+        <field name="res_model">transit.driver</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_transit_driver_search"/>
+    </record>
+</odoo>
