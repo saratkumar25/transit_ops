@@ -58,11 +58,11 @@
                 <filter string="Toll" name="toll" domain="[('expense_type','=','toll')]"/>
                 <filter string="Parking" name="parking" domain="[('expense_type','=','parking')]"/>
                 <filter string="Permit" name="permit" domain="[('expense_type','=','permit')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Type" name="group_type" context="{'group_by':'expense_type'}"/>
+                <separator/>
+                <filter string="Type" name="group_type" context="{'group_by':'expense_type'}"/>
                     <filter string="Vehicle" name="group_vehicle" context="{'group_by':'vehicle_id'}"/>
                     <filter string="Date" name="group_date" context="{'group_by':'date:month'}"/>
-                </group>
+                
             </search>
         </field>
     </record>

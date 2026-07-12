@@ -75,12 +75,11 @@
                 <filter string="Dispatched" name="dispatched" domain="[('state','=','dispatched')]"/>
                 <filter string="Completed" name="completed" domain="[('state','=','completed')]"/>
                 <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
-                <group expand="0" string="Group By">
+                <separator/>
                     <filter string="State" name="group_state" context="{'group_by':'state'}"/>
                     <filter string="Vehicle" name="group_vehicle" context="{'group_by':'vehicle_id'}"/>
                     <filter string="Driver" name="group_driver" context="{'group_by':'driver_id'}"/>
                     <filter string="Region" name="group_region" context="{'group_by':'region'}"/>
-                </group>
             </search>
         </field>
     </record>

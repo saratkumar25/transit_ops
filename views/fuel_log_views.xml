@@ -55,10 +55,10 @@
             <search string="Fuel Logs">
                 <field name="vehicle_id"/>
                 <field name="trip_id"/>
-                <group expand="0" string="Group By">
-                    <filter string="Vehicle" name="group_vehicle" context="{'group_by':'vehicle_id'}"/>
+                <separator/>
+                <filter string="Vehicle" name="group_vehicle" context="{'group_by':'vehicle_id'}"/>
                     <filter string="Date" name="group_date" context="{'group_by':'date:month'}"/>
-                </group>
+                
             </search>
         </field>
     </record>

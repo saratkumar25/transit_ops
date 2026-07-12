@@ -63,10 +63,9 @@
                 <filter string="Suspended" name="suspended" domain="[('status','=','suspended')]"/>
                 <filter string="Expired" name="expired" domain="[('license_state','=','expired')]"/>
                 <filter string="Expiring" name="expiring" domain="[('license_state','=','expiring')]"/>
-                <group expand="0" string="Group By">
+                <separator/>
                     <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
                     <filter string="Category" name="group_category" context="{'group_by':'license_category'}"/>
-                </group>
             </search>
         </field>
     </record>

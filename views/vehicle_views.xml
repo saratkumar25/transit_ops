@@ -80,11 +80,10 @@
                 <filter string="On Trip" name="on_trip" domain="[('status','=','on_trip')]"/>
                 <filter string="In Shop" name="in_shop" domain="[('status','=','in_shop')]"/>
                 <filter string="Retired" name="retired" domain="[('status','=','retired')]"/>
-                <group expand="0" string="Group By">
+                <separator/>
                     <filter string="Type" name="group_vehicle_type" context="{'group_by':'vehicle_type'}"/>
                     <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
                     <filter string="Region" name="group_region" context="{'group_by':'region'}"/>
-                </group>
             </search>
         </field>
     </record>

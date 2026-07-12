@@ -83,11 +83,11 @@
                 <filter string="Service" name="service" domain="[('maintenance_type','=','service')]"/>
                 <filter string="Repair" name="repair" domain="[('maintenance_type','=','repair')]"/>
                 <filter string="Inspection" name="inspection" domain="[('maintenance_type','=','inspection')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="State" name="group_state" context="{'group_by':'state'}"/>
+                <separator/>
+                <filter string="State" name="group_state" context="{'group_by':'state'}"/>
                     <filter string="Type" name="group_type" context="{'group_by':'maintenance_type'}"/>
                     <filter string="Vehicle" name="group_vehicle" context="{'group_by':'vehicle_id'}"/>
-                </group>
+                
             </search>
         </field>
     </record>
