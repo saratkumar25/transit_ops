@@ -31,7 +31,7 @@
                 <sheet>
                     <group>
                         <group string="Route">
-                            <field name="name" readonly="1"/>
+                            <field name="name"/>
                             <field name="source"/>
                             <field name="destination"/>
                             <field name="region"/>
@@ -53,8 +53,8 @@
                         <field name="revenue"/>
                     </group>
                     <group string="Dates">
-                        <field name="dispatch_date" readonly="1"/>
-                        <field name="completion_date" readonly="1"/>
+                        <field name="dispatch_date"/>
+                        <field name="completion_date"/>
                     </group>
                 </sheet>
             </form>

@@ -13,7 +13,7 @@ class TransitTrip(models.Model):
     _description = "Transit Trip"
     _order = "create_date desc, id desc"
 
-    name = fields.Char(default="/", copy=False, readonly=True)
+    name = fields.Char(default="", copy=False)
     source = fields.Char(required=True)
     destination = fields.Char(required=True)
     region = fields.Char(index=True)
@@ -37,8 +37,8 @@ class TransitTrip(models.Model):
         default="draft",
         index=True,
     )
-    dispatch_date = fields.Datetime(readonly=True)
-    completion_date = fields.Datetime(readonly=True)
+    dispatch_date = fields.Datetime()
+    completion_date = fields.Datetime()
     currency_id = fields.Many2one(
         "res.currency",
         required=True,
